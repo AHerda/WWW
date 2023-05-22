@@ -1,0 +1,91 @@
+@media only screen and (max-width: 500px) {
+	/*Strona z projektami*/
+
+	#projekty {
+		@include flex("column", true);
+	}
+
+	.projekt {
+		margin: auto;
+		width: 90vw;
+
+		img {
+			width: 60vw;
+		}
+
+		> * {
+			margin: auto;
+		}
+	}
+
+	/*Część galeriowo-zdjęciowa*/
+
+	#galeria {
+		grid-template-columns: repeat(6, 1fr);
+		grid-template-rows: repeat(4, 1fr);
+		grid-gap: 5px;
+		margin: {
+			top: 2%;
+			bottom: 18%;
+			left: 5%;
+			right: 5%;
+		}
+
+		> img {
+			z-index: 1;
+			grid-column: span 2;
+			max-width: 100%;
+			margin-bottom: -33%;
+			clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+			transform: scale(1);
+			transition: all .5s;
+
+			&:last-child {
+				clip-path: polygon(50% 0%, 78% 25%, 78% 75%, 50% 100%, 22% 75%, 22% 25%);
+				transform: scale(1.76);
+			}
+
+			&:nth-child(5n + 4) {
+				grid-column: 2 / span 2;
+			}
+
+			&:focus {
+				z-index: 2;
+				transform: scale(1.5);
+			}
+
+			&:last-child:focus {
+			transform: scale(2.64);
+			}
+		}
+	}
+
+	#kod > {
+		figure {
+			margin: auto;
+			margin-bottom: 20px;
+			max-width: 100%;
+			width: auto;
+			height: auto;
+		}
+
+		h4 {
+			margin-bottom: 0px;
+		}
+	}
+
+	#kod_figura pre {
+		margin: auto;
+		overflow: scroll;
+	}
+
+	form {
+		@include flex("column");
+		gap: 15px;
+		padding: 20px;
+	}
+
+	.bez_zdjecia #nav-menu {
+		padding: 10px;
+	}
+}

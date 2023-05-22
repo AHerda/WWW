@@ -1,0 +1,46 @@
+#ukladanka {
+    height: 100%;
+    @include flex("column");
+    align-content: center;
+  }
+  
+  #board {
+    //@include flex("column");
+    padding: 10px;
+    border-radius: 15px;
+    border: 3px solid black;
+  }
+  
+  #display {
+    margin: 20px;
+    max-width: 501px;
+    max-height: 668px;
+  }
+  
+  #board p {
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+  
+  #board input, #board button {
+    margin: 20px;
+    font-family: Georgia;
+  }
+  
+  #content {
+    margin: 10px;
+  }
+
+  @media only screen and (max-width: 500px) {
+    #board {
+      //@include flex("column");
+      padding: 0;
+      border-radius: 15px;
+    }
+
+    #display {
+      margin: 5%;
+      width: 90%;
+      height: auto;
+    }
+  }

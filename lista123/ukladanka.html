@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="css/style2.css">
+        <title>Adrian Herda - Układanka</title>
+	</head>
+	<body>
+		<header class="bez_zdjecia">
+            <div>
+                <div>
+                    <h1 class="bez_zdjecia">Układanka</h1>
+                    <p>Układanka w stylu typowej "pietnastki"</p>
+                </div>
+                <nav class="navbar">
+                    <div class="hamburger">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </div>
+                    <ul class="nav-menu">
+                        <li class="nav_item"><a href="glowna.html">Strona główna</a></li>
+                        <li class="nav_item"><a href="projekty.html">Projekty</a></li>
+                        <li class="nav_item"><a href="ukladanka.html">Układanka</a></li>
+                        <li class="nav_item" id="Kontakt" tabindex=-1>Kontakt</li>
+                        <aside id="dane" tabindex=-1>
+                            tel: +48 511 100 116<br>
+                            e-mail: adrianherda@gmail.com<br>
+                            github: <a href="https://www.github.com/AHerda">github.com/AHerda</a>
+                        </aside>
+                    </ul>
+                    <script src="js/menu.js" type="text/javascript"></script>
+                    <noscript>
+                        <ul class="nav-menu">
+                            <li class="nav_item"><a href="glowna.html">Strona główna</a></li>
+                            <li class="nav_item"><a href="projekty.html">Projekty</a></li>
+                            <li class="nav_item"><a href="ukladanka.html">Układanka</a></li>
+                            <li class="nav_item" id="Kontakt" tabindex=-1>Kontakt</li>
+                            <aside id="dane" tabindex=-1>
+                                tel: +48 511 100 116<br>
+                                e-mail: adrianherda@gmail.com<br>
+                                github: <a href="https://www.github.com/AHerda">github.com/AHerda</a>
+                            </aside>
+                        </ul>
+                    </noscript>
+                </nav>
+            </div>
+		</header>
+        <main id="ukladanka">
+            <!---<form>
+                <label for="rozmiar">Wybierz rozmiar planszy:</label>
+                <input type="number" id="difficulty" name="trudność" value=3>
+
+                <label for="zdjecie">Wklej zdjęcie:</label>
+                <select id="imgs" size="4">
+                    <option value="./zdjecia/20220429_162955.jpg">zdj 1</option>
+                    <option value="./zdjecia/20220903_180231(0).jpg">zdj 2</option>
+                    <option value="./zdjecia/20230101_161812.jpg">zdj 3</option>
+                    <option value="./zdjecia/20220528_133916.jpg">zdj 4</option>
+                </select>
+
+                <button type="submit">Wyślij</button>
+            </form>--->
+			<div id="board">
+                <div id="content">
+                    Size: <input id="size" type="number" min="2" max="5" value="4">
+                    <button id="reset">Reset</button>
+                </div>
+                <canvas id="display"></canvas>
+            </div>
+        </main>
+        <footer>
+	    	<p>Strona stworzona przez Adriana Herde, 2023</p>
+        </footer>
+        <script src="js/ukladanka.js" type="text/javascript"></script>
+        <script src="js/form.js" type="text/javas"></script>
+	</body>
+</html>

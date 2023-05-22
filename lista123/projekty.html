@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="css/style2.css">
+        <title>Adrian Herda - Projekty</title>
+	</head>
+	<body>
+		<header class="bez_zdjecia">
+            <div>
+                <div>
+                    <h1 class="bez_zdjecia">Projekty</h1>
+                    <p class="bez_zdjecia">3 Wybrane</p>
+                </div>
+                <nav class="navbar">
+                    <div class="hamburger">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </div>
+                    <ul class="nav-menu">
+                        <li class="nav_item"><a href="glowna.html">Strona główna</a></li>
+                        <li class="nav_item"><a href="projekty.html">Projekty</a></li>
+                        <li class="nav_item"><a href="ukladanka.html">Układanka</a></li>
+                        <li class="nav_item" id="Kontakt" tabindex=-1>Kontakt</li>
+                        <aside id="dane" tabindex=-1>
+                            tel: +48 511 100 116<br>
+                            e-mail: adrianherda@gmail.com<br>
+                            github: <a href="https://www.github.com/AHerda">github.com/AHerda</a>
+                        </aside>
+                    </ul>
+                    <noscript>
+                        <ul class="nav-menu">
+                            <li class="nav_item"><a href="glowna.html">Strona główna</a></li>
+                            <li class="nav_item"><a href="projekty.html">Projekty</a></li>
+                            <li class="nav_item"><a href="ukladanka.html">Układanka</a></li>
+                            <li class="nav_item" id="Kontakt" tabindex=-1>Kontakt</li>
+                            <aside id="dane" tabindex=-1>
+                                tel: +48 511 100 116<br>
+                                e-mail: adrianherda@gmail.com<br>
+                                github: <a href="https://www.github.com/AHerda">github.com/AHerda</a>
+                            </aside>
+                        </ul>
+                    </noscript>
+                </nav>
+            </div>
+		</header>
+        <main>
+            <article>
+			    <section id="projekty">
+                	<div class="projekt">
+                    	<a href="https://www.github.com/AHerda/warcaby"><img src="./zdjecia/warcaby.jpg" alt="Link do projektu warcab"></a>
+                    	<p class="desc">Warcaby - napisane w parze przeze mnie i mojego partnera. Ja zająłem się częścią po stronie serwera. Cały czas są doskonalone i urozmaicane o np. bota</p>
+                	</div>
+                	<div class="projekt">
+                    	<a href="https://www.github.com/AHerda/Zadania/tree/main/SQL/baza_projekt"><img src="./zdjecia/bd.jpg" alt="link do projektu baz danych"></a>
+                    	<p class="desc">Baza Danych ("jsos") - pisana przez mnie na zaliczenie z przedmiotu baz danych. Zawiera wszystko co powinna porządna baza danych. Napisana w 3 postaci normalnej</p>
+                	</div>
+                	<div class="projekt">
+                    	<a href="https://www.github.com/AHerda/Zadania/tree/main/Java%20i%20Cpp/Semestr_1/tydzien_6"><img src="./zdjecia/paint.jpg" alt="link do projektu paint gui"></a>
+                        <p class="desc">GUI paint - projekt, który nauczył mnie jak pisać aplikacje z interfejsem graficznym. Pokazał też jak fajna to może być zabawa</p>
+                	</div>
+		    	</section>
+                <section id="kod">
+                    <h4>Mój ulubiony fragment kodu</h4>
+		    	    <figure id="kod_figura">
+                        <pre>
+                            <code>
+/**
+ * Metoda wysylajaca wiadomosc do gracza
+ * @param wiadomosc
+ */
+public void wyslij(String wiadomosc) {
+    out.println(wiadomosc);
+    out.flush();
+}
+
+/**
+ * Główna metoda wątku serwera
+ * Obsługuje wysyła i odbiera wiadomości
+ * W razie potrzeby powiadamia innych uzytkowników o rozłączeniu się gracza
+ */
+@Override
+public void run() {
+    PrzetwarzaczWiadomosci pw = new PrzetwarzaczWiadomosci();
+
+    String wiadomosc;
+
+    try {
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        out = new PrintWriter(socket.getOutputStream());
+    } catch(IOException ioe) {
+        System.out.println("Problem IO z wątkiem serwera");
+    }
+
+    while(true) {
+        try {
+            wiadomosc = in.readLine();
+            pw.setWiadomosc(wiadomosc);
+            Komenda kom = pw.getKomenda(gracz);
+            String zwrotne = kom.Wykonaj(pw.getReszta(), gracz.getPokoj());
+            out.println(zwrotne);
+            out.flush();
+        } catch (IOException e) {
+            for(Gracz gracz : KontrolerDanych.getInstance().getGracze()) {
+                if(!gracz.equals(this.gracz)) {
+                    gracz.getSt().wyslij("Rozlaczono " + this.gracz.getNick());
+                }
+            }
+
+            KontrolerDanych.getInstance().removeGracz(this.gracz);
+
+            if(this.gracz.getPokoj() != null) {
+                Pokoj pokoj1 = this.gracz.getPokoj();
+                pokoj1.kontroler_stanu_gry.PRZERWIJ();
+                pokoj1.setGosc(null);
+                pokoj1.setMistrz(null);
+                KontrolerDanych.getInstance().removePokoj(pokoj1);
+            }
+
+            System.out.println("Rozłaczono " + this.gracz.getNick());
+            return;
+        }
+    }
+}
+                            </code>
+                        </pre>
+                        <figcaption>Główna fukcja serwera obsługująca pojedynczego gracza w projekcie Warcaby</figcaption>
+			        </figure>
+                </section>
+            </article>
+        </main>
+        <footer>
+	    	<p>Strona stworzona przez Adriana Herde, 2023</p>
+        </footer>
+        <script src="js/menu.js" type="text/javascript"></script>
+	</body>
+</html>

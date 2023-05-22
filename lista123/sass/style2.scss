@@ -1,0 +1,158 @@
+@import "_additions.scss";
+
+body {
+  background-color: map-get($colors, "white");
+  color: map-get($colors, "black");
+  min-height: 98vh;
+  @include flex("column");
+  margin: 0;
+}
+
+header {
+  @include flex("row");
+  height: auto;
+  background-color: map-get($colors, "light-blue");
+  color: map-get($colors, "black");
+  border-radius: 0px 0px 0px 50px;
+
+  > {
+    div > {
+      * {
+        padding: auto;
+        margin: 2vh;
+      }
+
+      p {
+        padding-bottom: 15px;
+      }
+    }
+
+    img {
+      min-height: 120px;
+      max-height: 220px;
+      height: 10vh;
+      margin: 2vh;
+      margin-left: auto;
+      border-radius: 5%;
+    }
+  }
+}
+
+.bez_zdjecia {
+  height: auto;
+  padding: auto;
+  width: 100%;
+
+  > div {
+    margin: auto;
+    height: auto;
+    justify-content: space-evenly;
+    text-align: center;
+
+    > * {
+      margin: auto;
+    }
+  }
+}
+
+h1.bez_zdjecia {
+  margin: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+main {
+  @include flex("column");
+  margin-top: auto 0;
+  padding: 10px;
+  justify-content: flex-start;
+}
+
+#projekty {
+  @include flex("column");
+  justify-content: space-evenly;
+}
+
+.projekt {
+  @include flex("column");
+  justify-content: space-evenly;
+  padding: 10px;
+  text-align: center;
+
+  > * {
+    margin: auto;
+  }
+
+  img {
+    margin: auto;
+    border-radius: 50px;
+    border: map-get($colors, "dark-blue");
+    padding: 5px;
+
+    &:hover {
+      border: 5px solid map-get($colors, "dark-blue");
+      padding: 0px;
+    }
+  }
+}
+
+div.project:active {
+  border: 5px solid map-get($colors, "dark-blue");
+  padding: 0px;
+}
+
+#galeria {
+  flex-grow: 1;
+  margin: auto;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+footer {
+  margin-top: auto;
+  padding-top: 10px;
+  background-color: map-get($colors, "light-blue");
+  color: map-get($colors, "black");
+  border-radius: 0px 60px 0px 0px;
+  text-align: center;
+}
+
+#Kontakt {
+  margin: auto;
+}
+
+aside#dane {
+  display: none;
+  z-index: 0;
+  height: auto;
+  width: auto;
+  border-radius: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  margin: auto;
+  background-color: map-get($colors, "dark-blue");
+}
+
+#Kontakt:focus + aside#dane, aside#dane:hover, aside#dane:focus {
+  display: block;
+  z-index: 3;
+}
+
+a {
+  &:link, &:visited {
+    color: map-get($colors, "black");
+  }
+}
+
+#imgs {
+  @include flex("row");
+}
+
+@import "_ukladanka.scss";
+@import "_menu.scss";
+@import "_mobile.scss";
+@import "_desktop.scss";
