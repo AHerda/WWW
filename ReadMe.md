@@ -1,5 +1,5 @@
 # Nowoczesne Technologie WWW
-Repozytorium zawierające zadania oraz projekty wykonane na kurs NTWWW
+Repozytorium zawierające zadania oraz projekty wykonane na kurs NTWWW<br>
 Semestr 4
 
 ## Autor
