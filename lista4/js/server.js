@@ -1,18 +1,10 @@
-var http = require("http");
-var fs = require("fs");
-var url = require("url");
-var server = http.createServer( function (request, response) {
-    var pathname = url.parse(request.url).pathname;
-    console.log("Request for " + pathname + " received.");
-    fs.readFile(pathname.substr(1), function (err, data) {
-        if (err) {
-            console.log(err);
-            response.writeHead(404, {"Content-Type": "text/html"});
-        } else {
-            response.writeHead(200, {"Content-Type": "text/html"});
-            response.write(data.toString());
-        }
-        response.end();
-    });
-}).listen(3000);
-console.log("Serwer nasłuchuje na http://127.0.0.1:3000/");
+var express = require("express");
+var app = express();
+app.get("/", function (req, res) {
+res.send("Hello World");
+})
+var server = app.listen(3001, function () {
+    var host = server.address().address
+    var port = server.address().port
+    console.log("Przykładowa aplikacja nasłuchuje na http://%s:%s", host, port)
+})
