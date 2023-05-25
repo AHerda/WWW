@@ -1,4 +1,5 @@
 var express = require("express");
+var mongoose = require("mongoose");
 var app = express();
 
 app.use(express.static("../html"));
@@ -26,8 +27,8 @@ var server = app.listen(3001, function () {
     })
 })
 
-app.use(express.static("../"));
-app.get("html/index.html", function (req, res) {
+app.use(express.static("../html"));
+app.get("index.html", function (req, res) {
 res.sendFile( __dirname + "/html" + "get.html" );
 });
 app.get("/form_get", function (req, res) {
