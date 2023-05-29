@@ -20,7 +20,7 @@ const app = express();
 app.use(express.json());
 
 // Endpoint: Zwraca listę wszystkich notatek
-app.get('/note', async (req, res) => {
+app.get('/notes', async (req, res) => {
     try {
         const notes = await Note.find();
         res.json(notes);
@@ -30,12 +30,12 @@ app.get('/note', async (req, res) => {
 });
 
 // Endpoint: Zwraca pojedynczą notatkę według ID
-app.get('/note/:id', getNote, (req, res) => {
+app.get('/notes/:id', getNote, (req, res) => {
     res.json(res.note);
 });
 
 // Endpoint: Tworzy nową notatkę
-app.post('/note', async (req, res) => {
+app.post('/notes', async (req, res) => {
     const note = new Note({
         title: req.body.title,
         content: req.body.content
@@ -50,7 +50,7 @@ app.post('/note', async (req, res) => {
 });
 
 // Endpoint: Aktualizuje notatkę według ID
-app.put('/note/:id', getNote, async (req, res) => {
+app.put('/notes/:id', getNote, async (req, res) => {
     res.note.title = req.body.title;
     res.note.content = req.body.content;
 
@@ -63,7 +63,7 @@ app.put('/note/:id', getNote, async (req, res) => {
 });
 
 // Endpoint: Usuwa notatkę według ID
-app.delete('/note/:id', getNote, async (req, res) => {
+app.delete('/notes/:id', getNote, async (req, res) => {
     try {
         await res.note.remove();
         res.json({ message: 'Note deleted' });
