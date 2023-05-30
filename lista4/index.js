@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
 const app = express();
+app.use(bodyParser.json())
 
 mongoose.connect("mongodb://127.0.0.1:27017/notes", { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {console.log("Connected to Database!");})
@@ -24,24 +25,23 @@ app.get("/notes", async (req, res) => {
 });
 
 app.post("/notes", async (req, res) => {
+    let file_content = req.body;
     let note = new Note({
-        Title: bodyParser.json(req.body).Title,
-        Note: bodyParser.json(req.body).Note
+        Title: req.body.Title,
+        Note: req.body.Note
     });
 
-    console.log(note);
-    res.json("Done");
-
-    /*try {
+    try {
         let temp = await note.save();
-        res.status(201).json(temp);
+        console.log(file_content)
+        res.status(201).json("Done: " + temp);
     } catch (err) {
         res.status(400).json({error: err.message});
-    }*/
+    }
 });
 
 const server = app.listen(3000, () => {
-    var address = server.address().address;
-    var port = server.address().port;
+    let address = server.address().address;
+    let port = server.address().port;
     console.log("Server listening to https://%s:%s/", address, port);
 })
