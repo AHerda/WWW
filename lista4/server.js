@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 // Połączenie z bazą danych MongoDB
 mongoose.connect('mongodb://127.0.0.1/notes', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -8,8 +9,8 @@ mongoose.connect('mongodb://127.0.0.1/notes', { useNewUrlParser: true, useUnifie
 
 // Definicja schematu dla notatki
 const noteSchema = new mongoose.Schema({
-    title: String,
-    content: String
+    Title: String,
+    Note: String
 });
 
 // Model notatki
@@ -19,8 +20,22 @@ const app = express();
 
 app.use(express.json());
 
+// Endpoint: User login
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+
+    // Check if the credentials are valid
+    if (username === 'admin' && password === 'admin') {
+        // Generate a JWT
+        const token = jwt.sign({ user: username }, secretKey);
+        res.json({ token });
+    } else {
+        res.status(401).json({ message: 'Invalid credentials' });
+    }
+});
+
 // Endpoint: Zwraca listę wszystkich notatek
-app.get('/notes', async (req, res) => {
+app.get('/note', async (req, res) => {
     try {
         const notes = await Note.find();
         res.json(notes);
@@ -30,15 +45,15 @@ app.get('/notes', async (req, res) => {
 });
 
 // Endpoint: Zwraca pojedynczą notatkę według ID
-app.get('/notes/:id', getNote, (req, res) => {
+app.get('/note/:id', getNote, (req, res) => {
     res.json(res.note);
 });
 
 // Endpoint: Tworzy nową notatkę
-app.post('/notes', async (req, res) => {
+app.post('/note', async (req, res) => {
     const note = new Note({
-        title: req.body.title,
-        content: req.body.content
+        Title: req.body.Title,
+        Note: req.body.Note
     });
 
     try {
@@ -50,7 +65,7 @@ app.post('/notes', async (req, res) => {
 });
 
 // Endpoint: Aktualizuje notatkę według ID
-app.put('/notes/:id', getNote, async (req, res) => {
+app.put('/note/:id', getNote, async (req, res) => {
     res.note.title = req.body.title;
     res.note.content = req.body.content;
 
@@ -63,9 +78,9 @@ app.put('/notes/:id', getNote, async (req, res) => {
 });
 
 // Endpoint: Usuwa notatkę według ID
-app.delete('/notes/:id', getNote, async (req, res) => {
+app.delete('/note/:id', getNote, async (req, res) => {
     try {
-        await res.note.remove();
+        await Note.findByIdAndDelete(req.params.id)
         res.json({ message: 'Note deleted' });
     } catch (err) {
         res.status(500).json({ message: err.message });
