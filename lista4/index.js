@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const jwt = require('jsonwebtoken');
 
 const app = express();
 app.use(express.json())
@@ -16,7 +17,7 @@ const note_schema = new mongoose.Schema({
 });
 const Note = mongoose.model("Note", note_schema);
 
-app.get("/note", async (req, res) => {
+app.get("/note", authenticateToken, async (req, res) => {
     try {
         const notes = await Note.find();
         res.status(200).json(notes);
@@ -25,11 +26,11 @@ app.get("/note", async (req, res) => {
     }
 });
 
-app.get("/note/:id", getNote, async (req, res) => {
+app.get("/note/:id", authenticateToken, getNote, async (req, res) => {
     res.status(201).json(res.note);
 });
 
-app.post("/note", async (req, res) => {
+app.post("/note", authenticateToken, async (req, res) => {
     const file_content = req.body;
     const note = new Note({
         Title: file_content.Title,
@@ -45,7 +46,7 @@ app.post("/note", async (req, res) => {
     }
 });
 
-app.put("/note/:id", getNote, async (req, res) => {
+app.put("/note/:id", authenticateToken, getNote, async (req, res) => {
     res.note.Title = req.body.Title;
     res.note.Note = req.body.Note;
 
@@ -57,12 +58,26 @@ app.put("/note/:id", getNote, async (req, res) => {
     }
 });
 
-app.delete("/note/:id", getNote, async (req, res) => {
+app.delete("/note/:id", authenticateToken, getNote, async (req, res) => {
     try {
         await Note.findByIdAndDelete(req.params.id);
         res.status(203).json("Deleted: " + res.note);
     } catch (err) {
         res.status(500).json({message: err.message});
+    }
+});
+
+app.post('/login', (req, res) => {
+    // Tutaj można dodać logikę weryfikacji użytkownika na podstawie przesłanych danych logowania
+
+    const username = 'admin';
+    const password = 'admin';
+
+    if (req.body.username === username && req.body.password === password) {
+        const token = jwt.sign({ username: username }, 'secret_key');
+        res.json({ token: token });
+    } else {
+        res.status(401).json({ error: 'Invalid credentials' });
     }
 });
 
@@ -86,4 +101,19 @@ async function getNote(req, res, next) {
 
     res.note = note;
     next();
+}
+
+function authenticateToken(req, res, next) {
+    const token = req.headers["authorization"];
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    jwt.verify(token, 'secret_key', (err, user) => {
+        if (err) {
+            return res.status(403).json({ error: 'Invalid token', "token": token});
+        }
+        req.user = user;
+        next();
+    });
 }
